@@ -1,0 +1,9 @@
+[Unit]
+Description=Socket for My Inventory Web Application
+
+[Socket]
+ListenStream=127.0.0.1:8000
+BindIPv6Only=both
+
+[Install]
+WantedBy=sockets.target

@@ -67,7 +67,7 @@ app.post('/items', async (req, res) => {
     });
     res.status(201).json(newItem);
   } catch (err) {
-    res.status(400).send("Error creating item. Ensure name and quantity are provided.");
+    res.status(400).send("Error creating item. Make sure that name and quantity are provided.");
   }
 });
 
@@ -97,7 +97,14 @@ app.get('/items/:id', async (req, res) => {
   }
 });
 
-app.listen(argv.port, () => {
-  console.log(`Server running on port ${argv.port}`);
+const socketFd = process.env.LISTEN_FDS > 0 ? { fd: 3 } : null;
+const listenTarget = socketFd || argv.port;
+
+app.listen(listenTarget, () => {
+  if (socketFd) {
+    console.log(`Server started using systemd socket activation.`);
+  } else {
+    console.log(`Server running on port ${argv.port}`);
+  }
   console.log(`Using Database: ${argv.db_url.split('@')[1]}`);
 });

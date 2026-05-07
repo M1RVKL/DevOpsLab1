@@ -1,0 +1,17 @@
+[Unit]
+Description=My Inventory WebApp
+
+Requires=mywebapp.socket
+After=network.target mariadb.service mywebapp.socket
+
+[Service]
+WorkingDirectory=/home/student/DevOps
+ExecStartPre=/usr/bin/bash /home/student/DevOps/migrate.sh
+ExecStart=/usr/bin/node /home/student/DevOps/index.js --db_url "mysql://vlad:qwerty@localhost:3306/inventory_db"
+
+User=mywebapp
+Group=mywebapp
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
