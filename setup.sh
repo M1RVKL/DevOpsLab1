@@ -13,7 +13,7 @@ sudo useradd -m -s /bin/bash student || true
 echo "student:ytrewq" | sudo chpasswd
 sudo usermod -aG sudo student
 
-sudo useradd -m -s /bin/bash operator
+sudo useradd -m -s /bin/bash operator || true
 echo "operator:12345678" | sudo chpasswd
 sudo passwd -e operator
 
@@ -26,18 +26,21 @@ operator ALL=(ALL) NOPASSWD: /usr/bin/systemctl reload nginx
 EOF'
 
 sudo mariadb -e "CREATE DATABASE IF NOT EXISTS inventory_db;"
-sudo mariadb -e "GRANT ALL PRIVILEGES ON *.* TO 'vlad'@'localhost' IDENTIFIED BY 'qwerty';"
+sudo mariadb -e "CREATE USER IF NOT EXISTS 'vlad'@'localhost' IDENTIFIED BY 'qwerty';"
+sudo mariadb -e "GRANT ALL PRIVILEGES ON inventory_db.* TO 'vlad'@'localhost';"
 sudo mariadb -e "FLUSH PRIVILEGES;"
 
-sudo cp ./configs/nginx.conf /etc/nginx/sites-available/mywebapp
+sudo mkdir -p /var/www/mywebapp
+sudo cp -r ./* /var/www/mywebapp/
+sudo chown -R mywebapp:mywebapp /var/www/mywebapp
+sudo chmod +x /var/www/mywebapp/migrate.sh
+
+sudo cp /var/www/mywebapp/configs/nginx.conf /etc/nginx/sites-available/mywebapp
 sudo ln -sf /etc/nginx/sites-available/mywebapp /etc/nginx/sites-enabled/
 sudo rm -f /etc/nginx/sites-enabled/default
 
-sudo cp ./configs/mywebapp.socket /etc/systemd/system/
-sudo cp ./configs/mywebapp.service /etc/systemd/system/
-
-sudo chown -R mywebapp:mywebapp $(pwd)
-sudo chmod +x migrate.sh
+sudo cp /var/www/mywebapp/configs/mywebapp.socket /etc/systemd/system/
+sudo cp /var/www/mywebapp/configs/mywebapp.service /etc/systemd/system/
 
 sudo systemctl daemon-reload
 sudo systemctl enable --now mywebapp.socket
