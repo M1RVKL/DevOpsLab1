@@ -7,7 +7,7 @@ sudo useradd -m -s /bin/bash teacher
 echo "teacher:12345678" | sudo chpasswd
 sudo passwd -e teacher
 
-sudo useradd -r -s /usr/sbin/nologin mywebapp
+sudo useradd -r -m -s /usr/sbin/nologin mywebapp
 
 sudo useradd -m -s /bin/bash student || true
 echo "student:ytrewq" | sudo chpasswd
@@ -31,7 +31,12 @@ sudo mariadb -e "GRANT ALL PRIVILEGES ON inventory_db.* TO 'vlad'@'localhost';"
 sudo mariadb -e "FLUSH PRIVILEGES;"
 
 sudo mkdir -p /var/www/mywebapp
+sudo rm -rf /var/www/mywebapp/*
 sudo cp -r ./* /var/www/mywebapp/
+
+cd /var/www/mywebapp
+sudo npm install --production
+
 sudo chown -R mywebapp:mywebapp /var/www/mywebapp
 sudo chmod +x /var/www/mywebapp/migrate.sh
 
