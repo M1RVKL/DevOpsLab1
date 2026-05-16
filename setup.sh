@@ -1,8 +1,6 @@
 sudo apt update
 sudo apt install -y nginx mariadb-server nodejs npm
 
-echo "4" > /home/student/gradebook
-
 sudo useradd -m -s /bin/bash teacher
 echo "teacher:12345678" | sudo chpasswd
 sudo passwd -e teacher
@@ -13,8 +11,10 @@ sudo useradd -m -s /bin/bash student || true
 echo "student:ytrewq" | sudo chpasswd
 sudo usermod -aG sudo student
 
+echo "4" > /home/student/gradebook
+
 sudo useradd -m -s /bin/bash operator || true
-echo "operator:12345678" | sudo chpasswd
+echo "operator:87654321" | sudo chpasswd
 sudo passwd -e operator
 
 sudo bash -c 'cat <<EOF > /etc/sudoers.d/operator
