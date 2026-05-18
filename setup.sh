@@ -13,7 +13,7 @@ sudo usermod -aG sudo student
 
 echo "14839938" > /home/student/gradebook
 
-sudo useradd -m -s /bin/bash operator || true
+sudo useradd -m -s /bin/bash -g operator operator || true
 echo "operator:12345678" | sudo chpasswd
 sudo passwd -e operator
 
