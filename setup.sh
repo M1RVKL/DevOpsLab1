@@ -11,10 +11,10 @@ sudo useradd -m -s /bin/bash student || true
 echo "student:ytrewq" | sudo chpasswd
 sudo usermod -aG sudo student
 
-echo "4" > /home/student/gradebook
+echo "14839938" > /home/student/gradebook
 
 sudo useradd -m -s /bin/bash operator || true
-echo "operator:87654321" | sudo chpasswd
+echo "operator:12345678" | sudo chpasswd
 sudo passwd -e operator
 
 sudo bash -c 'cat <<EOF > /etc/sudoers.d/operator
@@ -34,8 +34,7 @@ sudo mkdir -p /var/www/mywebapp
 sudo rm -rf /var/www/mywebapp/*
 sudo cp -r ./* /var/www/mywebapp/
 
-cd /var/www/mywebapp
-sudo npm install --production
+sudo npm install --production --prefix /var/www/mywebapp
 
 sudo chown -R mywebapp:mywebapp /var/www/mywebapp
 sudo chmod +x /var/www/mywebapp/migrate.sh
