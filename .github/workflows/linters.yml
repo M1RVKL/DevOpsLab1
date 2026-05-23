@@ -3,58 +3,13 @@ name: Code Analysis (Linters)
 on:
   push:
     branches:
-      - main
+      - Lab3
     tags:
       - '*'
   pull_request:
     branches:
-      - main
-name: Code Analysis (Linters)
+      - Lab3
 
-on:
-  push:
-    branches:
-      - main
-    tags:
-      - '*'
-  pull_request:
-    branches:
-      - main
-
-jobs:
-  linting:
-    name: Run Linters
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-      
-      - name: Install Node.js dependencies
-        run: npm ci || npm install
-
-      - name: Run ESLint
-        run: npx eslint .
-
-      - name: Run Hadolint
-        uses: hadolint/hadolint-action@v3.1.0
-        with:
-          dockerfile: Dockerfile
-
-      - name: Run Shellcheck
-        uses: ludeeus/action-shellcheck@master
-        with:
-          scandir: './'
-
-      - name: Run Yamllint
-        run: |
-          sudo apt-get update && sudo apt-get install -y yamllint
-          yamllint .
 jobs:
   linting:
     name: Run Linters
