@@ -1,4 +1,4 @@
-sudo apt update
+#!/bin/bash
 sudo apt install -y nginx mariadb-server nodejs npm
 
 sudo useradd -m -s /bin/bash teacher
