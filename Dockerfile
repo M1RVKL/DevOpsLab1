@@ -8,9 +8,7 @@ RUN npm install --production
 
 COPY . .
 
-RUN npx prisma generate
-
-RUN chmod +x entrypoint.sh
+RUN npx prisma generate && chmod +x entrypoint.sh
 
 EXPOSE 8000
 
