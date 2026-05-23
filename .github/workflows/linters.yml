@@ -39,7 +39,7 @@ jobs:
         uses: ludeeus/action-shellcheck@master
         with:
           scandir: './'
-        ignore_paths: 'node_modules'
+          ignore_paths: 'node_modules'
 
       - name: Run Yamllint
         run: |
