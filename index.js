@@ -28,7 +28,7 @@ app.get('/health/ready', async (req, res) => {
   try {
     await prisma.$queryRaw`SELECT 1`;
     res.status(200).send('OK');
-  } catch (err) {
+  } catch {
     res.status(500).send('Database connection failed');
   }
 });
@@ -54,7 +54,7 @@ app.get('/items', async (req, res) => {
       },
       'application/json': () => res.json(items)
     });
-  } catch (err) {
+  } catch {
     res.status(500).send("Error fetching items");
   }
 });
@@ -66,7 +66,7 @@ app.post('/items', async (req, res) => {
       data: { name, quantity: parseInt(quantity) }
     });
     res.status(201).json(newItem);
-  } catch (err) {
+  } catch {
     res.status(400).send("Error creating item. Make sure that name and quantity are provided.");
   }
 });
@@ -92,7 +92,7 @@ app.get('/items/:id', async (req, res) => {
       },
       'application/json': () => res.json(item)
     });
-  } catch (err) {
+  } catch {
     res.status(400).send("Invalid ID format");
   }
 });
