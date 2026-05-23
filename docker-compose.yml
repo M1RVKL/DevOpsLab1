@@ -42,3 +42,4 @@ services:
 networks:
   inventory_network:
     driver: bridge
+    
