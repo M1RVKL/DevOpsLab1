@@ -99,14 +99,18 @@ app.get('/items/:id', async (req, res) => {
 
 const socketFd = process.env.LISTEN_FDS > 0 ? 3 : null;
 
-if (socketFd) {
-  app.listen({ fd: socketFd }, () => {
-    console.log(`Server started using systemd socket activation.`);
-    console.log(`Using Database: ${argv.db_url.split('@')[1]}`);
-  });
-} else {
-  app.listen(argv.port, () => {
-    console.log(`Server running on port ${argv.port}`);
-    console.log(`Using Database: ${argv.db_url.split('@')[1]}`);
-  });
+if (process.env.NODE_ENV !== 'test') {
+  if (socketFd) {
+    app.listen({ fd: socketFd }, () => {
+      console.log(`Server started using systemd socket activation.`);
+      console.log(`Using Database: ${argv.db_url.split('@')[1]}`);
+    });
+  } else {
+    app.listen(argv.port, () => {
+      console.log(`Server running on port ${argv.port}`);
+      console.log(`Using Database: ${argv.db_url.split('@')[1]}`);
+    });
+  }
 }
+
+module.exports = app;
