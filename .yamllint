@@ -2,3 +2,7 @@ extends: relaxed
 
 ignore: |
   node_modules/
+
+rules:
+  line-length: disable
+  

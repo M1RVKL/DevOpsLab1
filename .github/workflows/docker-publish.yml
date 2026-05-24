@@ -11,7 +11,7 @@ jobs:
   build-and-push:
     name: Build and Push to GHCR
     runs-on: ubuntu-latest
-    
+
     permissions:
       contents: read
       packages: write
@@ -39,7 +39,7 @@ jobs:
             # Теги для комітів в основну гілку
             type=raw,value=latest,enable={{is_default_branch}}
             type=raw,value=sha-${{ github.sha }},enable={{is_default_branch}}
-            
+
             # Теги для анотованих тегів
             type=raw,value=stable,enable=${{ startsWith(github.ref, 'refs/tags/') }}
             type=ref,event=tag
