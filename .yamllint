@@ -5,4 +5,3 @@ ignore: |
 
 rules:
   line-length: disable
-  
