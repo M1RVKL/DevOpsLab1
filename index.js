@@ -28,7 +28,7 @@ app.get('/health/ready', async (req, res) => {
   try {
     await prisma.$queryRaw`SELECT 1`;
     res.status(200).send('OK');
-  } catch (err) {
+  } catch {
     res.status(500).send('Database connection failed');
   }
 });
@@ -54,7 +54,7 @@ app.get('/items', async (req, res) => {
       },
       'application/json': () => res.json(items)
     });
-  } catch (err) {
+  } catch {
     res.status(500).send("Error fetching items");
   }
 });
@@ -66,7 +66,7 @@ app.post('/items', async (req, res) => {
       data: { name, quantity: parseInt(quantity) }
     });
     res.status(201).json(newItem);
-  } catch (err) {
+  } catch {
     res.status(400).send("Error creating item. Make sure that name and quantity are provided.");
   }
 });
@@ -92,21 +92,25 @@ app.get('/items/:id', async (req, res) => {
       },
       'application/json': () => res.json(item)
     });
-  } catch (err) {
+  } catch {
     res.status(400).send("Invalid ID format");
   }
 });
 
 const socketFd = process.env.LISTEN_FDS > 0 ? 3 : null;
 
-if (socketFd) {
-  app.listen({ fd: socketFd }, () => {
-    console.log(`Server started using systemd socket activation.`);
-    console.log(`Using Database: ${argv.db_url.split('@')[1]}`);
-  });
-} else {
-  app.listen(argv.port, () => {
-    console.log(`Server running on port ${argv.port}`);
-    console.log(`Using Database: ${argv.db_url.split('@')[1]}`);
-  });
+if (process.env.NODE_ENV !== 'test') {
+  if (socketFd) {
+    app.listen({ fd: socketFd }, () => {
+      console.log(`Server started using systemd socket activation.`);
+      console.log(`Using Database: ${argv.db_url.split('@')[1]}`);
+    });
+  } else {
+    app.listen(argv.port, () => {
+      console.log(`Server running on port ${argv.port}`);
+      console.log(`Using Database: ${argv.db_url.split('@')[1]}`);
+    });
+  }
 }
+
+module.exports = app;
