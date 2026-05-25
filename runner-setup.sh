@@ -1,3 +1,4 @@
+#!/bin/bash
 echo "System updating"
 sudo apt-get update && sudo apt-get upgrade -y
 
