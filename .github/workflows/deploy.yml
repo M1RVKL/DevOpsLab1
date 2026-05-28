@@ -41,7 +41,7 @@ jobs:
       - name: Verify Deployment
         run: |
           echo "Waiting for containers to start..."
-          sleep 10
+          sleep 30
 
           echo "Checking the server availability..."
           HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://192.168.1.120)
