@@ -19,21 +19,21 @@ jobs:
         run: |
           echo "1. Creating a folder..."
           ssh -o StrictHostKeyChecking=no miracle@192.168.1.120 "mkdir -p ~/devOps-project"
-          
+
           echo "2. Transporting files to Target VM..."
           scp -o StrictHostKeyChecking=no -r ./* miracle@192.168.1.120:~/devOps-project/
-          
+
           echo "3. Installing Docker and Docker Compose..."
           ssh -o StrictHostKeyChecking=no miracle@192.168.1.120 << 'EOF'
             echo "installation..."
             sudo apt-get update
             sudo apt-get install -y docker.io docker-compose-v2
-            
+
             cd ~/devOps-project/
-            
+
             echo "Closing previous containers..."
             sudo docker compose down
             sudo docker compose up -d --build
-            
+
             echo "Deployment completed successfully"
           EOF
